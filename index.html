@@ -64,6 +64,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            padding-bottom: 100px; /* Add extra padding for bottom nav */
         }
         
         header {
@@ -357,58 +358,16 @@
         }
         
         .tabs {
-            display: flex;
-            margin-bottom: 24px;
-            border-bottom: 2px solid var(--border-color);
-            gap: 4px;
-        }
-        
-        .tab {
-            padding: 12px 24px;
-            cursor: pointer;
-            background: transparent;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tab::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        
-        .tab:hover::after {
-            transform: scaleX(1);
-        }
-        
-        .tab.active {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-2px);
+            display: none;
         }
         
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease-out;
         }
         
         .tab-content.active {
             display: block;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 8px;
         }
         
         footer {
@@ -420,11 +379,14 @@
             text-align: center;
             box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
             border-top: 1px solid var(--border-color);
+            z-index: 100;
         }
         
         .nav-buttons {
             display: flex;
             justify-content: space-around;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .nav-button {
@@ -438,22 +400,19 @@
             padding: 8px 16px;
             border-radius: 8px;
             position: relative;
+            flex: 1;
         }
         
-        .nav-button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
+        .nav-button.active {
+            color: var(--primary);
         }
         
-        .nav-button:hover::after {
+        .nav-button.active::after {
             width: 80%;
+        }
+        
+        .nav-button.active .nav-icon {
+            transform: scale(1.1);
         }
         
         .nav-icon {
@@ -534,13 +493,6 @@
     </header>
     
     <div class="container">
-        <div class="tabs">
-            <div class="tab active" data-tab="dashboard">Dashboard</div>
-            <div class="tab" data-tab="add">Add Sleep</div>
-            <div class="tab" data-tab="history">History</div>
-            <div class="tab" data-tab="settings">Settings</div>
-        </div>
-        
         <div id="dashboard" class="tab-content active">
             <div class="card">
                 <h2>Sleep Summary</h2>
@@ -1200,20 +1152,12 @@
             // Show the selected tab content
             document.getElementById(tabId).classList.add('active');
             
-            // Update active tab button
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.getAttribute('data-tab') === tabId) {
-                    tab.classList.add('active');
-                }
-            });
-            
-            // Update active footer button
+            // Update active nav button
             document.querySelectorAll('.nav-button').forEach(button => {
                 if (button.getAttribute('data-tab') === tabId) {
-                    button.style.opacity = '1';
+                    button.classList.add('active');
                 } else {
-                    button.style.opacity = '0.7';
+                    button.classList.remove('active');
                 }
             });
         }
@@ -1234,14 +1178,6 @@
             loadData();
             setDefaultDate();
             updateUI();
-            
-            // Tab switching
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
-                    showTab(tabId);
-                });
-            });
             
             // Footer navigation
             document.querySelectorAll('.nav-button').forEach(button => {
