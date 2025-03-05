@@ -19,6 +19,30 @@
             --border-color: #e2e8f0;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
+            --moon-color: #fbbf24;
+            --star-color: #fde68a;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         * {
@@ -51,6 +75,27 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '🌙';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        header::after {
+            content: '⭐';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+            animation: float 3s ease-in-out infinite;
+            animation-delay: 1s;
         }
         
         h1, h2, h3 {
@@ -65,6 +110,7 @@
             padding: 24px;
             margin-bottom: 24px;
             border: 1px solid var(--border-color);
+            animation: fadeIn 0.5s ease-out;
         }
         
         .form-group {
@@ -115,14 +161,31 @@
             font-size: 16px;
             font-weight: 500;
             font-family: inherit;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .btn:hover::before {
+            transform: translateX(100%);
         }
         
         .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         
         .btn:active {
@@ -172,17 +235,40 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .stat-card:hover::before {
+            transform: translateX(100%);
         }
         
         .stat-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
         }
         
         .stat-number {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
         }
         
         .stat-label {
@@ -205,12 +291,14 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out;
         }
         
         .sleep-item:hover {
-            transform: translateX(4px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-left-width: 6px;
         }
         
         .sleep-item .date-time {
@@ -233,6 +321,24 @@
             color: white;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quality::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .quality:hover::after {
+            transform: translateX(100%);
         }
         
         .quality-1 { background-color: var(--danger); }
@@ -265,17 +371,31 @@
             border-top-right-radius: 8px;
             font-weight: 500;
             color: var(--text-secondary);
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
-        .tab:hover {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .tab:hover::after {
+            transform: scaleX(1);
         }
         
         .tab.active {
             background: var(--primary);
             color: white;
+            transform: translateY(-2px);
         }
         
         .tab-content {
@@ -314,19 +434,36 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             padding: 8px 16px;
             border-radius: 8px;
+            position: relative;
         }
         
-        .nav-button:hover {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-button:hover::after {
+            width: 80%;
         }
         
         .nav-icon {
             font-size: 1.5rem;
             margin-bottom: 4px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-button:hover .nav-icon {
+            transform: scale(1.1);
         }
         
         #chart-container {
@@ -337,6 +474,18 @@
             background: var(--card-bg);
             border-radius: 12px;
             border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #chart-container::before {
+            content: '🌙';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            opacity: 0.5;
+            animation: float 3s ease-in-out infinite;
         }
         
         .modal {
@@ -919,8 +1068,11 @@
                             backgroundColor: 'rgba(99, 102, 241, 0.8)',
                             borderColor: 'rgba(99, 102, 241, 1)',
                             borderWidth: 1,
-                            borderRadius: 6,
-                            barThickness: 30
+                            borderRadius: 8,
+                            barThickness: 30,
+                            hoverBackgroundColor: 'rgba(99, 102, 241, 1)',
+                            hoverBorderColor: 'rgba(99, 102, 241, 1)',
+                            hoverBorderWidth: 2
                         },
                         {
                             label: 'Sleep Goal',
@@ -931,7 +1083,9 @@
                             borderWidth: 2,
                             fill: false,
                             pointStyle: false,
-                            tension: 0.4
+                            tension: 0.4,
+                            hoverBorderColor: 'rgba(239, 68, 68, 1)',
+                            hoverBorderWidth: 3
                         }
                     ]
                 },
@@ -939,7 +1093,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     animation: {
-                        duration: 800,
+                        duration: 1000,
                         easing: 'easeInOutQuart'
                     },
                     plugins: {
@@ -949,6 +1103,24 @@
                                 padding: 20,
                                 font: {
                                     size: 12
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#1e293b',
+                            bodyColor: '#64748b',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            boxPadding: 6,
+                            usePointStyle: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toFixed(1)} hours`;
                                 }
                             }
                         }
@@ -963,6 +1135,9 @@
                             ticks: {
                                 font: {
                                     size: 12
+                                },
+                                callback: function(value) {
+                                    return value + 'h';
                                 }
                             }
                         },
